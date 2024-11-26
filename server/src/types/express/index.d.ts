@@ -8,6 +8,7 @@ declare global {
       user?: {
         _id: unknown;
         username: string;
+        email: string;
       };
     }
   }

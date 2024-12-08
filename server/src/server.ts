@@ -33,6 +33,9 @@ const startApolloServer = async () => {
       res.sendFile(path.join(__dirname, '../client/dist/index.html'));
     });
   }
+
+  console.log('Checking dist folder:', path.join(__dirname, '../client/dist'));
+
   
   db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 

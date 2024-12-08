@@ -1,8 +1,8 @@
 import express from 'express';
 import { ApolloServer } from '@apollo/server';
 import path from 'path';
+import { fileURLToPath } from 'url';
 // import expressMidlleware from '@apollo/server-express';
-
 import { typeDefs, resolvers } from './schemas/index.js';
 import db from './config/connection.js';
 
@@ -12,6 +12,10 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 const startApolloServer = async () => {
   await server.start();

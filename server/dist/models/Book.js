@@ -26,4 +26,4 @@ const bookSchema = new Schema({
         required: true,
     },
 });
-export default bookSchema;
+export default { bookSchema };

@@ -1,28 +1,36 @@
 import express from 'express';
-import { ApolloServer } from 'apollo-server-express';
-import { typeDefs, resolvers } from './schemas/index.js';
-import dotenv from 'dotenv';
-import jwt from 'jsonwebtoken';
-dotenv.config();
-const app = express();
+import path from 'node:path';
+import db from './config/connection.js';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
+import { typeDefs, resolvers } from './schema/index.js';
+import { fileURLToPath } from 'node:url';
+import { authenticateToken } from './services/auth-service.js';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const server = new ApolloServer({
     typeDefs,
-    resolvers,
-    context: ({ req }) => {
-        const authHeader = req.headers.authorization || '';
-        const token = authHeader.split(' ')[1];
-        const secretKey = process.env.JWT_SECRET_KEY || '';
-        if (token) {
-            try {
-                const user = jwt.verify(token, secretKey);
-                return { user };
-            }
-            catch (err) {
-                console.error(err);
-            }
-        }
-        return {};
-    },
+    resolvers
 });
-// server.applyMiddleware({ app });
-app.listen({ port: 4000 }, () => console.log(`Server ready at http://localhost:4000${server.graphqlPath}`));
+const startApolloServer = async () => {
+    await server.start();
+    await db;
+    const PORT = process.env.PORT || 3001;
+    const app = express();
+    app.use(express.urlencoded({ extended: false }));
+    app.use(express.json());
+    app.use('/graphql', expressMiddleware(server, {
+        context: authenticateToken
+    }));
+    if (process.env.NODE_ENV === 'production') {
+        app.use(express.static(path.join(__dirname, '../../client/dist')));
+        app.get('*', (_req, res) => {
+            res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
+        });
+    }
+    app.listen(PORT, () => {
+        console.log(`API server running on port ${PORT}!`);
+        console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+    });
+};
+startApolloServer();

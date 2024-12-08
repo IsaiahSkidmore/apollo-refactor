@@ -1,4 +1,4 @@
-import { signToken, AuthenticationError } from "../services/auth";
+import { signToken, AuthenticationError } from "../services/auth.js";
 import User from "../models/User.js";
 const resolvers = {
     Query: {

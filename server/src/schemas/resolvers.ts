@@ -1,4 +1,4 @@
-import { signToken, AuthenticationError } from "../services/auth";
+import { signToken, AuthenticationError } from "../services/auth.js";
 import { UserContext } from "../models/User.js";
 import { UserDocument } from "../models/User.js";
 import { BookDocument } from "../models/Book.js"; 

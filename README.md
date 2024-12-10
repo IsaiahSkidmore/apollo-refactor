@@ -1,4 +1,4 @@
-# Apollo Refactor
+# Apollo Refactor ![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 ## Description
 
@@ -72,5 +72,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 For any inquiries or feedback, please reach out to:
 
-- **Email**: your-email@example.com
-- **GitHub**: [your-username](https://github.com/your-username)
+- **Email**: isaiahschardt0617@gmail.com
+- **GitHub**: [Isaiah Skidmore](https://github.com/IsaiahSkidmore)
